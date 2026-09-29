@@ -38,15 +38,14 @@ protected:
 	UFUNCTION(CallInEditor, Category = "Test")
 	void TestLevelUp();
 
-private:
 	UFUNCTION()
-	void Test1();
+	virtual void Test1();
 
 	UFUNCTION()
-	void Test2();
+	virtual void Test2();
 
 	UFUNCTION()
-	void Test3();
+	virtual void Test3();
 
 public:
 	FOnHealthChange OnHealthChanged;
