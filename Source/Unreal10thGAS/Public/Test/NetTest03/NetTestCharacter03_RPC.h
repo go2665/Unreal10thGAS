@@ -39,8 +39,8 @@ private:
 	void Fire();
 
 protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	TObjectPtr<USceneComponent> FireTransform;
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	//TObjectPtr<USceneComponent> FireLocation;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Test|RPC")
 	TSubclassOf<AActor> ProjectileClass;

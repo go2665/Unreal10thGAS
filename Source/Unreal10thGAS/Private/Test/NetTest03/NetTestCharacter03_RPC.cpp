@@ -8,10 +8,9 @@
 
 ANetTestCharacter03_RPC::ANetTestCharacter03_RPC()
 {
-	FireTransform = CreateDefaultSubobject<USceneComponent>(TEXT("FireTransform"));
-	const FName FireSocketName = TEXT("Fire");
-	FireTransform->SetupAttachment(GetMesh(), FireSocketName);
-	//GetMesh()->GetSocketLocation(TEXT("FireSocket"));
+	//FireLocation = CreateDefaultSubobject<USceneComponent>(TEXT("FireLocation"));
+	//const FName FireSocketName = TEXT("Fire");
+	//FireLocation->SetupAttachment(GetMesh(), FireSocketName);
 }
 
 void ANetTestCharacter03_RPC::BeginPlay()
@@ -42,10 +41,9 @@ void ANetTestCharacter03_RPC::Server_Fire_Implementation()
 	// 서버가 실행하는 코드
 	if (ProjectileClass)
 	{
-		//FVector SpawnLocation = FireTransform->GetComponentLocation();
-		//FRotator SpawnRotator = FireTransform->GetComponentRotation();
+		//FVector SpawnLocation = FireLocation->GetComponentLocation();
 		FVector SpawnLocation = GetMesh()->GetSocketLocation(TEXT("Fire"));
-		FRotator SpawnRotator = GetMesh()->GetSocketRotation(TEXT("Fire"));
+		FRotator SpawnRotator = GetActorRotation();
 
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.Owner = this;					// 커넥션을 위해 필수
