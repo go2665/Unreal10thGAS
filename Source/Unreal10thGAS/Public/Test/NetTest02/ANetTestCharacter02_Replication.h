@@ -7,6 +7,10 @@
 #include "ANetTestCharacter02_Replication.generated.h"
 
 class UInputMappingContext;
+class UWidgetComponent;
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnHealthChange, float);
+
 /**
  * 
  */
@@ -14,8 +18,11 @@ UCLASS()
 class UNREAL10THGAS_API AANetTestCharacter02_Replication : public ATestPlayerCharacter03
 {
 	GENERATED_BODY()
-	
+public:
+	AANetTestCharacter02_Replication();
+		
 protected:
+	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -24,6 +31,9 @@ protected:
 
 	UFUNCTION()
 	void OnRepNotify_Level();
+
+	UFUNCTION()
+	void OnRepNotify_Health();
 
 	UFUNCTION(CallInEditor, Category = "Test")
 	void TestLevelUp();
@@ -38,14 +48,17 @@ private:
 	UFUNCTION()
 	void Test3();
 
+public:
+	FOnHealthChange OnHealthChanged;
+
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Test", ReplicatedUsing = OnRepNotify_Level)	// Level이 리플리케이션이 될 떄 OnRepNotify_Level이 실행
 	int32 Level = 1;
 
-	UPROPERTY(VisibleAnywhere, Category = "Test", Replicated)	// 리플리케이션이 된다고 표시
+	UPROPERTY(VisibleAnywhere, Category = "Test", ReplicatedUsing = OnRepNotify_Health)	
 	float Health = 100.0f;
 	
-	UPROPERTY(VisibleAnywhere, Category = "Test", Replicated)
+	UPROPERTY(VisibleAnywhere, Category = "Test", Replicated)	// 리플리케이션이 된다고 표시
 	float Exp = 0.0f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
@@ -59,4 +72,7 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UInputAction> IA_Test3;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<UWidgetComponent> OverheadWidgetComp;
 };

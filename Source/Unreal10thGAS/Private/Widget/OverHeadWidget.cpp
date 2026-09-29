@@ -41,9 +41,21 @@ void UOverHeadWidget::OnHealthChanged(const FOnAttributeChangeData & InData)
 	UpdateHealthUI(CurrentHealth, MaxHealth);
 }
 
+void UOverHeadWidget::OnHealthChanged(const float InValue)
+{
+	CurrentHealth = InValue;
+	UpdateHealthUI(CurrentHealth, MaxHealth);
+}
+
 void UOverHeadWidget::OnMaxHealthChanged(const FOnAttributeChangeData & InData)
 {
 	MaxHealth = InData.NewValue;
+	UpdateHealthUI(CurrentHealth, MaxHealth);
+}
+
+void UOverHeadWidget::OnMaxHealthChanged(const float InValue)
+{
+	MaxHealth = InValue;
 	UpdateHealthUI(CurrentHealth, MaxHealth);
 }
 

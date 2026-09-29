@@ -5,7 +5,28 @@
 #include "Net/UnrealNetwork.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "InputMappingContext.h"
+#include "Components/WidgetComponent.h"
+#include "Widget/OverHeadWidget.h"
+
+AANetTestCharacter02_Replication::AANetTestCharacter02_Replication()
+{
+	PrimaryActorTick.bCanEverTick = true;
+
+	OverheadWidgetComp = CreateDefaultSubobject<UWidgetComponent>(TEXT("OverHeadWidgetComp"));
+	OverheadWidgetComp->SetupAttachment(RootComponent);
+}
+
+void AANetTestCharacter02_Replication::BeginPlay()
+{
+	Super::BeginPlay();
+	if (OverheadWidgetComp && OverheadWidgetComp->GetWidget())
+	{
+		UOverHeadWidget* HealthWidget = Cast<UOverHeadWidget>(OverheadWidgetComp->GetWidget());
+		HealthWidget->OnMaxHealthChanged(100.0f);
+		HealthWidget->OnHealthChanged(Health);
+		OnHealthChanged.AddUObject(HealthWidget, &UOverHeadWidget::OnHealthChanged);
+	}
+}
 
 void AANetTestCharacter02_Replication::Tick(float DeltaTime)
 {
@@ -30,7 +51,7 @@ void AANetTestCharacter02_Replication::PossessedBy(AController* NewController)
 				Subsystem->AddMappingContext(TestMappingContext, 1);
 			}
 		}
-	}
+	}	
 }
 
 void AANetTestCharacter02_Replication::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -60,6 +81,13 @@ void AANetTestCharacter02_Replication::OnRepNotify_Level()
 {
 	const FString Str = FString::Printf(TEXT("서버에서 레벨을 %d로 변경했다고 알리고 있습니다."), Level);
 	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, Str);
+}
+
+void AANetTestCharacter02_Replication::OnRepNotify_Health()
+{
+	const FString Str = FString::Printf(TEXT("서버에서 체력을 %.1f로 변경했다고 알리고 있습니다."), Health);
+	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Yellow, Str);
+	OnHealthChanged.Broadcast(Health);
 }
 
 void AANetTestCharacter02_Replication::TestLevelUp()
@@ -94,6 +122,7 @@ void AANetTestCharacter02_Replication::Test3()
 
 	if (HasAuthority())
 	{
-		Health += 10.0f;
+		Health -= 10.0f;
+		OnHealthChanged.Broadcast(Health);
 	}
 }

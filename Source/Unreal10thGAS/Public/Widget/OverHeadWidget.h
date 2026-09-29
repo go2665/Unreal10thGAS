@@ -20,6 +20,8 @@ class UNREAL10THGAS_API UOverHeadWidget : public UUserWidget
 public:
 	UFUNCTION(BlueprintCallable)
 	virtual void InitializeWithAbilitySystem(AActor* InActor);
+	virtual void OnHealthChanged(const float InValue);
+	virtual void OnMaxHealthChanged(const float InValue);
 
 protected:
 	virtual void OnHealthChanged(const FOnAttributeChangeData& InData);
