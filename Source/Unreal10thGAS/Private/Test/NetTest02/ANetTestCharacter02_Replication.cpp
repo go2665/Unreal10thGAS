@@ -37,11 +37,11 @@ void AANetTestCharacter02_Replication::Tick(float DeltaTime)
 	DrawDebugString(GetWorld(), GetActorLocation(), NetInfo, nullptr, FColor::White, 0.0f, true);
 }
 
-void AANetTestCharacter02_Replication::PossessedBy(AController* NewController)
+void AANetTestCharacter02_Replication::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	Super::PossessedBy(NewController);
+	Super::SetupPlayerInputComponent(PlayerInputComponent);	
 
-	if (APlayerController* PC = Cast<APlayerController>(NewController))
+	if (APlayerController* PC = Cast<APlayerController>(GetController()))
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem =
 			ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
@@ -51,12 +51,7 @@ void AANetTestCharacter02_Replication::PossessedBy(AController* NewController)
 				Subsystem->AddMappingContext(TestMappingContext, 1);
 			}
 		}
-	}	
-}
-
-void AANetTestCharacter02_Replication::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);	
+	}
 
 	if (UEnhancedInputComponent* Enhanced = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
