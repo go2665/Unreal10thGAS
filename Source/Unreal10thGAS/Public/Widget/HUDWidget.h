@@ -7,6 +7,9 @@
 #include "HUDWidget.generated.h"
 
 class UStatWidget;
+class UNameInputWidget;
+class UPlayerInfoWidget;
+class ATestPlayerState;
 /**
  * 
  */
@@ -19,7 +22,16 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void InitializeWithAbilitySystem(AActor* InActor);
 
+	UFUNCTION(BlueprintCallable)
+	virtual void InitializePlayerInfo(ATestPlayerState* InPS);
+
 protected:
 	UPROPERTY(meta = (BindWidgetOptional), BlueprintReadOnly)
 	TObjectPtr<UStatWidget> StatWidget;
+
+	UPROPERTY(meta = (BindWidget), BlueprintReadOnly)
+	TObjectPtr<UPlayerInfoWidget> PlayerInfo;
+
+	UPROPERTY(meta = (BindWidget), BlueprintReadOnly)
+	TObjectPtr<UNameInputWidget> NameInput;
 };

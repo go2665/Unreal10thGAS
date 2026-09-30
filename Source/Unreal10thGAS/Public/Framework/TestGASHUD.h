@@ -7,6 +7,7 @@
 #include "TestGASHUD.generated.h"
 
 class UHUDWidget;
+class ATestPlayerState;
 /**
  * 
  */
@@ -18,6 +19,9 @@ class UNREAL10THGAS_API ATestGASHUD : public AHUD
 public:
 	UFUNCTION(BlueprintCallable)
 	void InitHUD(APawn* InPawn);
+
+	UFUNCTION(BlueprintCallable)
+	void InitNetHUD(ATestPlayerState* InPS);
 
 	UFUNCTION(BlueprintCallable)
 	UHUDWidget* GetHUDWidget() const { return HUDWidget; }

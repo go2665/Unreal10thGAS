@@ -64,13 +64,15 @@ void ATestPlayerCharacter::PossessedBy(AController* NewController)
 		}
 	}
 
-	
-	if (APlayerController* PC = Cast<APlayerController>(NewController))
+	if (IsLocallyControlled())
 	{
-		// 플레이어 일때만 처리
-		if (ATestGASHUD* TestGASHUD = Cast<ATestGASHUD>(PC->GetHUD()))
+		if (APlayerController* PC = Cast<APlayerController>(NewController))
 		{
-			TestGASHUD->InitHUD(this);	// 레이스 컨디션 대비
+			// 플레이어 일때만 처리
+			if (ATestGASHUD* TestGASHUD = Cast<ATestGASHUD>(PC->GetHUD()))
+			{
+				TestGASHUD->InitHUD(this);	// 레이스 컨디션 대비
+			}
 		}
 	}
 
