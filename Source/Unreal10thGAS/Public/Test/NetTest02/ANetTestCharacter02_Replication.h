@@ -28,6 +28,8 @@ protected:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
+	virtual FString MakeDebugInfoString() const;
+
 	UFUNCTION()
 	void OnRepNotify_Level();
 

@@ -7,7 +7,8 @@
 #include "TestPlayerState.generated.h"
 
 
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnNameChanged, const FString&)
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnNameChanged, const FString&);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnScoreChanged, int32);
 /**
  * 
  */
@@ -24,9 +25,13 @@ public:
 
 public:
 	FOnNameChanged OnNameChanged;
-	
+	FOnScoreChanged OnScoreChanged;
+
 protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	UFUNCTION(Server, Reliable)
+	void Server_AddMyPlayerScore(int32 InPoint);
 
 	UFUNCTION(Server, Reliable, WithValidation)
 	void Server_SetMyPlayerName(const FString& InNewName);

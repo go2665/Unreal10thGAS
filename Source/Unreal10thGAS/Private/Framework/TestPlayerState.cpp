@@ -12,6 +12,10 @@ void ATestPlayerState::AddMyPlayerScore(int32 InPoint)
 		MyPlayerScore += InPoint;
 		OnRepNotify_MyPlayerScore();
 	}
+	else
+	{
+		Server_AddMyPlayerScore(InPoint);
+	}
 }
 
 void ATestPlayerState::SetMyPlayerName(const FString & InNewName)
@@ -44,6 +48,11 @@ void ATestPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME(ATestPlayerState, MyPlayerName);
 }
 
+void ATestPlayerState::Server_AddMyPlayerScore_Implementation(int32 InPoint)
+{
+	AddMyPlayerScore(InPoint);
+}
+
 bool ATestPlayerState::Server_SetMyPlayerName_Validate(const FString& InNewName)
 {
 	return InNewName.Len() <= 10;
@@ -57,6 +66,7 @@ void ATestPlayerState::Server_SetMyPlayerName_Implementation(const FString& InNe
 void ATestPlayerState::OnRepNotify_MyPlayerScore()
 {
 	// HUD에 점수를 갱신한다.
+	OnScoreChanged.Broadcast(MyPlayerScore);
 }
 
 void ATestPlayerState::OnRepNotify_MyPlayerName()

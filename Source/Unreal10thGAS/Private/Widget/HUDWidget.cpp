@@ -18,6 +18,6 @@ void UHUDWidget::InitializePlayerInfo(ATestPlayerState* InPS)
 {
 	if (PlayerInfo)
 	{
-		PlayerInfo->InitializePlayerStatBind(InPS);
+		PlayerInfo->InitializePlayerStateBind(InPS);
 	}
 }

@@ -17,10 +17,11 @@ class UNREAL10THGAS_API UPlayerInfoWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void InitializePlayerStatBind(ATestPlayerState* InPS);
+	void InitializePlayerStateBind(ATestPlayerState* InPS);
 
 protected:
 	void UpdatePlayerName(const FString& InName);
+	void UpdatePlayerScore(int32 InScore);
 
 	
 protected:

@@ -5,11 +5,15 @@
 #include "Components/TextBlock.h"
 #include "Framework/TestPlayerState.h"
 
-void UPlayerInfoWidget::InitializePlayerStatBind(ATestPlayerState* InPS)
+void UPlayerInfoWidget::InitializePlayerStateBind(ATestPlayerState* InPS)
 {
 	if (InPS)
 	{
 		InPS->OnNameChanged.AddUObject(this, &UPlayerInfoWidget::UpdatePlayerName);
+		InPS->OnScoreChanged.AddUObject(this, &UPlayerInfoWidget::UpdatePlayerScore);
+
+		UpdatePlayerName(InPS->GetMyPlayerName());
+		UpdatePlayerScore(InPS->GetMyPlayerScore());
 	}
 	else
 	{
@@ -20,4 +24,9 @@ void UPlayerInfoWidget::InitializePlayerStatBind(ATestPlayerState* InPS)
 void UPlayerInfoWidget::UpdatePlayerName(const FString & InName)
 {
 	PlayerName->SetText(FText::FromString(*InName));
+}
+
+void UPlayerInfoWidget::UpdatePlayerScore(int32 InScore)
+{
+	PlayerScore->SetText(FText::AsNumber(InScore));
 }

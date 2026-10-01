@@ -32,8 +32,7 @@ void AANetTestCharacter02_Replication::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	const FString NetInfo = FString::Printf(TEXT("Level : %d\nExp : %.1f\nHealth : %.1f"),
-		Level, Exp, Health);
+	const FString NetInfo = MakeDebugInfoString();
 	DrawDebugString(GetWorld(), GetActorLocation(), NetInfo, nullptr, FColor::White, 0.0f, true);
 }
 
@@ -70,6 +69,11 @@ void AANetTestCharacter02_Replication::GetLifetimeReplicatedProps(TArray<FLifeti
 	//DOREPLIFETIME(AANetTestCharacter02_Replication, Level);	// 모두에게 리플리케이션
 	DOREPLIFETIME_CONDITION(AANetTestCharacter02_Replication, Exp, COND_SimulatedOnly);	// 다른 사람들에게만 리플리케이션 한다.
 	DOREPLIFETIME(AANetTestCharacter02_Replication, Health);
+}
+
+FString AANetTestCharacter02_Replication::MakeDebugInfoString() const
+{
+	return FString::Printf(TEXT("Level : %d\nExp : %.1f\nHealth : %.1f"), Level, Exp, Health);
 }
 
 void AANetTestCharacter02_Replication::OnRepNotify_Level()
