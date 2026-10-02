@@ -9,7 +9,7 @@
 class UTextBlock;
 class ATestPlayerState;
 /**
- * 
+ * UPlayerInfoWidget과 차이 없음
  */
 UCLASS()
 class UNREAL10THGAS_API UEnemyInfoWidget : public UUserWidget

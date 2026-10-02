@@ -149,6 +149,8 @@ void UHUDWidget::OnPlayerStateRemoved(APlayerState* InPS)
 			EnemyInfoList->RemoveChild(FoundWidget->Get());
 		}
 		EnemyWidgetMap.Remove(InPS);
+
+		// InitializePlayerStateBind <- 여기서 바인딩 한 것을 해제하는 작업 필요
 	}
 }
 
